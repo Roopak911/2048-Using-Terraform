@@ -63,17 +63,6 @@ resource "aws_autoscaling_group" "game-custom-autoscaling-group" {
   }
 }
 
-# AWS EIP for Game Nodes
-resource "aws_eip" "game-eips" {
-  domain = "vpc"
-  lifecycle {
-    create_before_destroy = true
-  }
-  tags = {
-    Name = "Game-EIP"
-  }
-}
-
 # Fetching Game Nodes
 data "aws_instances" "game_instance" {
   filter {
@@ -93,14 +82,6 @@ data "aws_instances" "game_instance" {
   depends_on = [aws_autoscaling_group.game-custom-autoscaling-group]
 }
 
-
-
-# Associate EIP to Game Nodes
-resource "aws_eip_association" "game_eip_association" {
-  instance_id         = data.aws_instances.game_instance.id
-  allocation_id       = aws_eip.game-eips.id
-  allow_reassociation = true
-}
 
 # Create volume for Game Nodes
 resource "aws_ebs_volume" "game-volume" {
