@@ -1,7 +1,7 @@
 # configure aws provider
 provider "aws" {
   region  = var.region
-  profile = "dhsoni"
+  profile = "tf"
 }
 
 # configure backend
@@ -10,7 +10,6 @@ terraform {
     bucket         = "game-2048-terraform"
     key            = "terraform.tfstate"
     region         = "us-east-1"
-    profile        = "dhsoni"
-    dynamodb_table = "game-2048-state-lock-dynamodb"
+    profile        = "tf"
   }
 }
