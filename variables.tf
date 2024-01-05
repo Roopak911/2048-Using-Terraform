@@ -20,7 +20,7 @@ variable "http_access" {
 # Desire capacity for game Node
 variable "game_desired_capacity" {
   type    = number
-  default = 3
+  default = 1
 }
 
 # Game volume size
