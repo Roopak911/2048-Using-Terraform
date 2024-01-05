@@ -20,6 +20,7 @@ pipeline {
                 sudo systemctl enable apache2
                 git clone https://github.com/gabrielecirulli/2048.git
                 cp -R 2048/* /var/www/html
+                '''
              }
         }
         stage('run terraform') {
