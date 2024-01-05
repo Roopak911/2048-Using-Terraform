@@ -83,7 +83,7 @@ data "aws_instances" "game_instance" {
 
   filter {
     name   = "availability-zone"
-    values = [data.aws_availability_zones.available_zones.names]
+    values = [data.aws_availability_zones.available_zones.names[0]]
   }
 
   filter {
@@ -104,7 +104,7 @@ resource "aws_eip_association" "game_eip_association" {
 
 # Create volume for Game Nodes
 resource "aws_ebs_volume" "game-volume" {
-  availability_zone = data.aws_availability_zones.available_zones.names
+  availability_zone = data.aws_availability_zones.available_zones.names[0]
   size              = var.game_volume_size
   type              = "gp2"
   tags = {
