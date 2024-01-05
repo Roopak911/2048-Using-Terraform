@@ -99,7 +99,7 @@ data "aws_instances" "game_instance" {
 # Associate EIP to Game Nodes
 resource "aws_eip_association" "game_eip_association" {
   count               = var.game_desired_capacity
-  instance_id         = data.aws_instances.game_instance.ids[count.index]
+  instance_id         = data.aws_instances.game_instance.id[count.index]
   allocation_id       = aws_eip.game-eips[count.index].id
   allow_reassociation = true
 }
@@ -121,6 +121,6 @@ resource "aws_volume_attachment" "ebs_game" {
   count        = var.game_desired_capacity
   device_name  = "/dev/sdf"
   volume_id    = aws_ebs_volume.game-volume.*.id[count.index]
-  instance_id  = data.aws_instances.game_instance.ids[count.index]
+  instance_id  = data.aws_instances.game_instance.id[count.index]
   force_detach = true
 }
