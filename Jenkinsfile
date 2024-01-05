@@ -6,8 +6,7 @@ pipeline {
     stages {
         stage('Git-checkout') {
             steps {
-               
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Roopak911/2048-Using-Terraform.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'roopak-git', url: 'https://github.com/Roopak911/2048-Using-Terraform.git']])
             }
         }
 
