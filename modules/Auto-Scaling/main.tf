@@ -84,7 +84,7 @@ data "aws_instances" "game_instance" {
 
   filter {
     name   = "availability-zone"
-    values = [data.aws_availability_zones.available_zones.names[0], data.aws_availability_zones.available_zones.names[1], data.aws_availability_zones.available_zones.names[2]]
+    values = [data.aws_availability_zones.available_zones.name]
   }
 
   filter {
@@ -99,15 +99,15 @@ data "aws_instances" "game_instance" {
 # Associate EIP to Game Nodes
 resource "aws_eip_association" "game_eip_association" {
   count               = var.game_desired_capacity
-  instance_id         = data.aws_instances.game_instance.ids[count.index]
-  allocation_id       = aws_eip.game-eips[count.index].id
+  instance_id         = data.aws_instances.game_instance.id
+  allocation_id       = aws_eip.game-eips.id
   allow_reassociation = true
 }
 
 # Create volume for Game Nodes
 resource "aws_ebs_volume" "game-volume" {
   count             = var.game_desired_capacity
-  availability_zone = data.aws_availability_zones.available_zones.names[count.index]
+  availability_zone = data.aws_availability_zones.available_zones.name
   size              = var.game_volume_size
   type              = "gp2"
   tags = {
@@ -120,7 +120,7 @@ resource "aws_ebs_volume" "game-volume" {
 resource "aws_volume_attachment" "ebs_game" {
   count        = var.game_desired_capacity
   device_name  = "/dev/sdf"
-  volume_id    = aws_ebs_volume.game-volume.*.id[count.index]
-  instance_id  = data.aws_instances.game_instance.ids[count.index]
+  volume_id    = aws_ebs_volume.game-volume.id
+  instance_id  = data.aws_instances.game_instance.id
   force_detach = true
 }
