@@ -25,7 +25,6 @@ pipeline {
         stage('run terraform') {
             steps {
                 sh '''
-		sudo cd -s /var/lib/jenkins/workspace/2048-game/
 		terraform init
                 terraform plan
                 terraform apply --auto-approve
