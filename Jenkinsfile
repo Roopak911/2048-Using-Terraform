@@ -13,6 +13,7 @@ pipeline {
         stage('Install game files') {
             steps {
                 sh '''
+                sudo rm -rf 2048
                 sudo apt-get update 
                 sudo apt install apache2 -y
                 sudo systemctl start apache2 
