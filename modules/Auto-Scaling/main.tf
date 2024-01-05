@@ -93,11 +93,3 @@ resource "aws_ebs_volume" "game-volume" {
     Name     = "Game Volume"
   }
 }
-
-# Attach volume to Game Nodes
-resource "aws_volume_attachment" "ebs_game" {
-  device_name  = "/dev/sdf"
-  volume_id    = aws_ebs_volume.game-volume.id
-  instance_id  = data.aws_instances.game_instance.id
-  force_detach = true
-}
