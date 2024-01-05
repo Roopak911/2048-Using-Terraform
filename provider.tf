@@ -1,7 +1,7 @@
 # configure aws provider
 provider "aws" {
   region  = var.region
-  profile = "tf"
+  profile = "default"
 }
 
 # configure backend
@@ -10,6 +10,6 @@ terraform {
     bucket         = "game-2048-terraform"
     key            = "terraform.tfstate"
     region         = "us-east-1"
-    profile        = "tf"
+    profile        = "default"
   }
 }
