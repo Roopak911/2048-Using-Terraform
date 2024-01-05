@@ -65,7 +65,6 @@ resource "aws_autoscaling_group" "game-custom-autoscaling-group" {
 
 # AWS EIP for Game Nodes
 resource "aws_eip" "game-eips" {
-  count = aws_autoscaling_group.game-custom-autoscaling-group.desired_capacity
   domain = "vpc"
   lifecycle {
     create_before_destroy = true
@@ -98,7 +97,6 @@ data "aws_instances" "game_instance" {
 
 # Associate EIP to Game Nodes
 resource "aws_eip_association" "game_eip_association" {
-  count               = var.game_desired_capacity
   instance_id         = data.aws_instances.game_instance.id
   allocation_id       = aws_eip.game-eips.id
   allow_reassociation = true
@@ -106,7 +104,6 @@ resource "aws_eip_association" "game_eip_association" {
 
 # Create volume for Game Nodes
 resource "aws_ebs_volume" "game-volume" {
-  count             = var.game_desired_capacity
   availability_zone = data.aws_availability_zones.available_zones.names
   size              = var.game_volume_size
   type              = "gp2"
@@ -118,9 +115,8 @@ resource "aws_ebs_volume" "game-volume" {
 
 # Attach volume to Game Nodes
 resource "aws_volume_attachment" "ebs_game" {
-  count        = length(var.game_desired_capacity)
   device_name  = "/dev/sdf"
-  volume_id    = element(aws_ebs_volume.game-volume.*.id, count.index)
+  volume_id    = aws_ebs_volume.game-volume.id
   instance_id  = data.aws_instances.game_instance.id
   force_detach = true
 }
