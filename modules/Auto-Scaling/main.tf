@@ -25,7 +25,7 @@ resource "aws_launch_template" "game-custom-launch-template" {
   instance_type           = var.game_instance_type
   vpc_security_group_ids  = [var.alb_security_group]
   key_name                = var.key_name
-  user_data               = file("./game.sh")
+  user_data               = filebase64("./game.sh")
   update_default_version  = true
   disable_api_termination = true
 
