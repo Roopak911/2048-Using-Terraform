@@ -118,9 +118,9 @@ resource "aws_ebs_volume" "game-volume" {
 
 # Attach volume to Game Nodes
 resource "aws_volume_attachment" "ebs_game" {
-  count        = var.game_desired_capacity
+  count        = length(var.game_desired_capacity)
   device_name  = "/dev/sdf"
-  volume_id    = aws_ebs_volume.game-volume.id
+  volume_id    = element(aws_ebs_volume.game-volume.*.id, count.index)
   instance_id  = data.aws_instances.game_instance.id
   force_detach = true
 }
