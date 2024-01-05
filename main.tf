@@ -50,7 +50,7 @@ module "asg" {
 
 # create key pair
 module "key_pair" {
-  source   = "./modules/Key-Pair"
+  source   = "./modules/Key-pair"
   key_name = var.key_name
 }
 
